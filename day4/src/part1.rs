@@ -7,7 +7,7 @@ pub fn solve(input: &str) -> u32 {
         .next()
         .unwrap()
         .split(',')
-        .flat_map(|d| d.parse::<u32>())
+        .flat_map(|d| d.parse())
         .collect::<Vec<_>>();
 
     let boards = input
@@ -15,7 +15,7 @@ pub fn solve(input: &str) -> u32 {
             board
                 .lines()
                 .map(|row| row.split_whitespace().flat_map(|d| d.parse()).collect())
-                .collect::<Vec<Vec<u32>>>()
+                .collect::<Vec<Vec<_>>>()
         })
         .collect::<Vec<_>>();
 

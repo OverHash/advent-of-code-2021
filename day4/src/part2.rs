@@ -7,7 +7,7 @@ pub fn solve(input: &str) -> u32 {
         .next()
         .unwrap()
         .split(',')
-        .flat_map(|d| d.parse::<u32>())
+        .flat_map(|d| d.parse())
         .collect::<Vec<_>>();
 
     let mut boards = input
@@ -15,28 +15,19 @@ pub fn solve(input: &str) -> u32 {
             board
                 .lines()
                 .map(|row| row.split_whitespace().flat_map(|d| d.parse()).collect())
-                .collect::<Vec<Vec<u32>>>()
+                .collect::<Vec<Vec<_>>>()
         })
         .collect::<Vec<_>>();
 
     for i in 5.. {
         let chosen_numbers = &board_draw[0..=i];
 
-        let cloned_boards = boards.to_owned();
-
-        let winners = cloned_boards
-            .iter()
-            .filter(|board| is_board_solved(board, chosen_numbers))
-            .collect::<Vec<_>>();
-
-        for winner in winners {
-            if boards.len() == 1 {
-                return sum_board(winner, chosen_numbers);
-            }
-
-            let position = boards.iter().position(|board| board == winner).unwrap();
-            boards.swap_remove(position);
+        // check if we are the last board and are solved to calculate the sum
+        if is_board_solved(&boards[0], chosen_numbers) && boards.len() == 1 {
+            return sum_board(&boards[0], chosen_numbers);
         }
+
+        boards.retain(|board| !is_board_solved(board, chosen_numbers));
     }
 
     unreachable!();
