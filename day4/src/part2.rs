@@ -19,8 +19,7 @@ pub fn solve(input: &str) -> u32 {
         })
         .collect::<Vec<_>>();
 
-    let mut i = 0;
-    loop {
+    for i in 5.. {
         let chosen_numbers = &board_draw[0..=i];
 
         let cloned_boards = boards.to_owned();
@@ -38,7 +37,7 @@ pub fn solve(input: &str) -> u32 {
             let position = boards.iter().position(|board| board == winner).unwrap();
             boards.swap_remove(position);
         }
-
-        i += 1;
     }
+
+    unreachable!();
 }

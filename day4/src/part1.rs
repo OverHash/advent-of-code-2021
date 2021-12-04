@@ -19,8 +19,7 @@ pub fn solve(input: &str) -> u32 {
         })
         .collect::<Vec<_>>();
 
-    let mut i = 0;
-    loop {
+    for i in 0.. {
         let chosen_numbers = &board_draw[0..=i];
 
         for board in &boards {
@@ -28,7 +27,7 @@ pub fn solve(input: &str) -> u32 {
                 return sum_board(board, chosen_numbers);
             }
         }
-
-        i += 1;
     }
+
+    unreachable!();
 }
