@@ -1,31 +1,22 @@
 use std::collections::HashMap;
 
+use crate::parse_input::{parse_input, ParsedInput};
+
 pub fn solve(input: &str) -> u32 {
-    let input = input.lines();
+    let input = parse_input(input);
 
     let mut lines: HashMap<(u32, u32), u32> = HashMap::new();
     for line in input {
-        let mut sides = line.split(" -> ");
-        let mut start_nums = sides
-            .next()
-            .unwrap()
-            .split(',')
-            .flat_map(|n| n.parse::<u32>());
-        let mut end_nums = sides
-            .next()
-            .unwrap()
-            .split(',')
-            .flat_map(|n| n.parse::<u32>());
+        let ParsedInput {
+            start_x,
+            start_y,
+            finish_x,
+            finish_y,
+        } = line;
 
-        let start_x = start_nums.next().unwrap();
-        let start_y = start_nums.next().unwrap();
-
-        let end_x = end_nums.next().unwrap();
-        let end_y = end_nums.next().unwrap();
-
-        if start_x == end_x || start_y == end_y {
-            for x in start_x.min(end_x)..=end_x.max(start_x) {
-                for y in start_y.min(end_y)..=end_y.max(start_y) {
+        if start_x == finish_x || start_y == finish_y {
+            for x in start_x.min(finish_x)..=finish_x.max(start_x) {
+                for y in start_y.min(finish_y)..=finish_y.max(start_y) {
                     *lines.entry((x, y)).or_default() += 1;
                 }
             }
@@ -37,16 +28,16 @@ pub fn solve(input: &str) -> u32 {
                 *lines.entry((current_x, current_y)).or_default() += 1;
 
                 // check to see if we have reached the destination
-                if current_x == end_x {
+                if current_x == finish_x {
                     break;
                 }
 
-                if current_x > end_x {
+                if current_x > finish_x {
                     current_x -= 1;
                 } else {
                     current_x += 1;
                 }
-                if current_y > end_y {
+                if current_y > finish_y {
                     current_y -= 1;
                 } else {
                     current_y += 1;

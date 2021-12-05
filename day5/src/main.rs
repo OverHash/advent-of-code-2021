@@ -1,5 +1,6 @@
 use std::fs;
 
+mod parse_input;
 mod part1;
 mod part2;
 
