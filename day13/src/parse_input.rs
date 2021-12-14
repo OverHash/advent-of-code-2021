@@ -21,9 +21,8 @@ pub fn parse_input(input: &str) -> ParsedInput {
     let coordinates = coordinates
         .lines()
         .map(|l| {
-            let mut separator = l.split(',');
-            let x = separator.next().unwrap().parse().unwrap();
-            let y = separator.next().unwrap().parse().unwrap();
+            let (x, y) = l.split_once(',').unwrap();
+            let (x, y) = (x.parse().unwrap(), y.parse().unwrap());
 
             Point { x, y }
         })
@@ -33,9 +32,8 @@ pub fn parse_input(input: &str) -> ParsedInput {
         .lines()
         .map(|l| {
             let l = l.split(' ').nth(2).unwrap();
-            let mut separator = l.split('=');
-            let coordinate = separator.next().unwrap();
-            let value = separator.next().unwrap().parse().unwrap();
+            let (coordinate, value) = l.split_once('=').unwrap();
+            let value = value.parse().unwrap();
 
             match coordinate {
                 "x" => FoldLocation::X(value),
