@@ -40,12 +40,12 @@ pub fn solve(input: &str) -> usize {
     let (input_x, input_y) = (&input_x[2..], &input_y[2..]);
 
     let (x_min, x_max) = input_x.split_once("..").unwrap();
-    let (x_min, x_max) = (x_min.parse().unwrap(), x_max.parse().unwrap());
+    let (x_min, x_max) = (x_min.parse::<i32>().unwrap(), x_max.parse().unwrap());
 
     let (y_min, y_max) = input_y.split_once("..").unwrap();
     let (y_min, y_max) = (y_min.parse::<i32>().unwrap(), y_max.parse().unwrap());
 
-    (1..=x_max)
+    (((((1 + 8 * x_min) as f32).sqrt() - 1_f32) / 2.0).ceil() as i32..=x_max)
         .cartesian_product(-y_min.abs()..y_min.abs())
         .filter(|&(x, y)| {
             let mut current_position = (0, 0);
